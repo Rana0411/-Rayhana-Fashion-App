@@ -96,7 +96,9 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
   assets:
+    - assets/
+    - assets/icon/
     - assets/images/
-    - assets/images/splash_bottom.svg
-    - assets/icon/rahana_logo.png
+
+
 

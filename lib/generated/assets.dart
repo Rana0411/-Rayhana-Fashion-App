@@ -2,8 +2,6 @@
 class Assets {
   Assets._();
 
-  static const String assetsIconRahanaLogo = 'assets/icon/rahana_logo.png';
-  static const String assetsImagesSplashBottom = 'assets/images/splash_bottom.svg';
   static const String iconRahanaLogo = 'assets/icon/rahana_logo.png';
   static const String imagesImagePageview1 = 'assets/images/image_pageview_1.svg';
   static const String imagesImagePageview2 = 'assets/images/image_pageview_2.svg';

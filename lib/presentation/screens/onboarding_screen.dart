@@ -1,5 +1,7 @@
+import 'package:fashion_app/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../data/models/onboarding_model.dart';
 import '../../generated/assets.dart'; // عشان نتحكم في شريط الحالة اللي فوق
@@ -47,7 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       height: 8,
       margin: EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: _currentPage == index ? Colors.blue : Colors.grey[300], // لون النقطة النشطة وغير النشطة
+        color: _currentPage == index ? Colors.black : Colors.grey[300], // لون النقطة النشطة وغير النشطة
         borderRadius: BorderRadius.circular(4), // عشان تبقى شكلها بيضاوي/دائري
       ),
     );
@@ -60,9 +62,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center, // توسيط المحتوى عمودياً
         children: [
-          Image.asset(
-            item.imagePath, // مسار الصورة من الموديل
-            height: 250, // حجم الصورة
+          SvgPicture.asset(
+            Assets.imagesImagePageview2 // مسار الصورة من الموديل
+             // حجم الصورة
           ),
           SizedBox(height: 40), // مسافة فاضية
           Text(
@@ -108,36 +110,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 _currentPage = page; // بنحدث رقم الصفحة الحالية
               });
             },
-            itemBuilder: (context, index) { // ده اللي بيبني محتوى كل صفحة
-              return _buildOnboardingPage(onboardingPages[index]); // بنجيب بيانات الصفحة من اللستة
+            itemBuilder: (context, index) {
+              return _buildOnboardingPage(onboardingPages[index]);
+
             },
           ),
-          // الشريط اللي فوق (الساعة، رقم الصفحة، Skip)
           Positioned(
-            top: 40, // بعد عن فوق
-            left: 20, // بعد عن الشمال
-            right: 20, // بعد عن اليمين
+            top: 40,
+            left: 20,
+            right: 20,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween, // يخلي العناصر متوزعة على الطرفين
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '9:41', // أو تستخدمي مكتبة تجيب الوقت الحقيقي
+                  '${_currentPage + 1}/${onboardingPages.length}',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  '${_currentPage + 1}/${onboardingPages.length}', // بيعرض 1/3, 2/3 وهكذا
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                ),
-                GestureDetector( // عشان نعمل زرار الـ Skip
+                Spacer(),
+                GestureDetector(
                   onTap: () {
-                    // هنا هتكتبي الكود اللي ينقلك للشاشة الرئيسية بتاعت التطبيق
-                    print('تم الضغط على تخطي');
-                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
                   child: Text(
                     'Skip',
                     style: TextStyle(
-                      fontSize: 16,
+                            fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -146,25 +145,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ],
             ),
           ),
-          // عناصر التحكم اللي تحت (النقط، Prev/Next/Get Started)
           Positioned(
-            bottom: 30, // بعد عن تحت
+            bottom: 30,
             left: 20,
             right: 20,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween, // بيوزع العناصر على الطرفين
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // زرار Prev (يظهر بس لو مش في أول صفحة)
+
                 _currentPage > 0
                     ? GestureDetector(
                   onTap: () {
-                    _pageController.previousPage( // يرجع للصفحة اللي قبلها
-                      duration: Duration(milliseconds: 300), // مدة الحركة
-                      curve: Curves.easeIn, // شكل حركة الرجوع
+                    _pageController.previousPage(
+
+                      duration: Duration(milliseconds: 300),
+
+                      curve: Curves.easeIn,
+
                     );
                   },
                   child: Text(
-                    'السابق',
+                    'previous',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 18,
@@ -172,44 +173,42 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 )
-                    : SizedBox(width: 50), // حاطين مسافة فاضية عشان الحجم ما يتغيرش لما الزرار يختفي
+                    : SizedBox(width: 50),
 
-                // مؤشرات الصفحات (النقط)
                 Row(
                   children: List.generate(
                     onboardingPages.length,
-                        (index) => _buildPageIndicator(index), // بيبني النقط ديناميكياً
+                        (index) => _buildPageIndicator(index),
                   ),
                 ),
 
-                // زرار Next أو Get Started (حسب لو دي آخر صفحة)
-                _currentPage == onboardingPages.length - 1 // لو احنا في آخر صفحة
+
+                _currentPage == onboardingPages.length - 1
                     ? GestureDetector(
                   onTap: () {
-                    // هنا هتكتبي الكود اللي ينقلك للشاشة الرئيسية بتاعت التطبيق
-                    print('تم الضغط على ابدأ الآن');
-                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
-                  child: Text(
-                    'ابدأ الآن',
+                  child: Text( "Get Started"
+                    ,
                     style: TextStyle(
-                      color: Colors.blue,
+                      color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 )
-                    : GestureDetector( // لو مش آخر صفحة بيعرض Next
+                    : GestureDetector(
                   onTap: () {
-                    _pageController.nextPage( // ينقل للصفحة اللي بعدها
+                    _pageController.nextPage(
                       duration: Duration(milliseconds: 300),
                       curve: Curves.easeIn,
                     );
                   },
                   child: Text(
-                    'التالي',
+                    'next',
                     style: TextStyle(
-                      color: Colors.blue,
+                      color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
