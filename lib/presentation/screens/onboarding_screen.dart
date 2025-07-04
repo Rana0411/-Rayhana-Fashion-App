@@ -4,9 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../data/models/onboarding_model.dart';
-import '../../generated/assets.dart'; // عشان نتحكم في شريط الحالة اللي فوق
- // نعمل import للموديل
- // نعمل import للبيانات اللي عملناها
+import '../../generated/assets.dart'; 
+ 
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -15,22 +14,22 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController(initialPage: 0); // ده اللي بيتحكم في الـ PageView
-  int _currentPage = 0;// بيخزن رقم الصفحة اللي احنا فيها حالياً
+  final PageController _pageController = PageController(initialPage: 0); 
+  int _currentPage = 0;
 
   final List<OnboardingItemModel> onboardingPages = [
     OnboardingItemModel(
-      imagePath: Assets.imagesImagePageview2, // Make sure this path is correct
+      imagePath: Assets.imagesImagePageview2, 
       title: 'Choose Products',
       description: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.',
     ),
     OnboardingItemModel(
-      imagePath: Assets.imagesImagePageview2, // Make sure this path is correct
+      imagePath: Assets.imagesImagePageview2, 
       title: 'Make Payment',
       description: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.',
     ),
     OnboardingItemModel(
-      imagePath: Assets.imagesImagePageview3, // Make sure this path is correct
+      imagePath: Assets.imagesImagePageview3,
       title: 'Get Your Order',
       description: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.',
     ),
@@ -38,47 +37,47 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   void dispose() {
-    _pageController.dispose(); // مهم أوي نعمل dispose للـ controller لما الشاشة تتقفل
+    _pageController.dispose(); /
     super.dispose();
   }
 
-  // ويجيت صغير عشان يعمل النقط اللي تحت بتاعت مؤشر الصفحات
+
   Widget _buildPageIndicator(int index) {
     return Container(
-      width: _currentPage == index ? 24 : 8, // النقطة النشطة تبقى أطول شوية
+      width: _currentPage == index ? 24 : 8, 
       height: 8,
       margin: EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: _currentPage == index ? Colors.black : Colors.grey[300], // لون النقطة النشطة وغير النشطة
-        borderRadius: BorderRadius.circular(4), // عشان تبقى شكلها بيضاوي/دائري
+        color: _currentPage == index ? Colors.black : Colors.grey[300], 
+        borderRadius: BorderRadius.circular(4),
       ),
     );
   }
 
-  // ويجيت عشان يعمل محتوى صفحة واحدة من صفحات الـ onboarding
+  
   Widget _buildOnboardingPage(OnboardingItemModel item) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center, // توسيط المحتوى عمودياً
+        mainAxisAlignment: MainAxisAlignment.center, 
         children: [
           SvgPicture.asset(
-            Assets.imagesImagePageview2 // مسار الصورة من الموديل
-             // حجم الصورة
+            Assets.imagesImagePageview2 
+            
           ),
-          SizedBox(height: 40), // مسافة فاضية
+          SizedBox(height: 40), 
           Text(
-            item.title, // العنوان من الموديل
+            item.title, 
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
-            textAlign: TextAlign.center, // توسيط النص
+            textAlign: TextAlign.center, 
           ),
           SizedBox(height: 16),
           Text(
-            item.description, // الشرح من الموديل
+            item.description, 
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
@@ -92,22 +91,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // اختياري: عشان نخفي شريط الحالة اللي فوق ونخلي الشاشة شكلها أحلى
+    
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-      statusBarColor: Colors.transparent, // شريط حالة شفاف
-      statusBarIconBrightness: Brightness.dark, // الأيقونات اللي فيه تبقى غامقة (زي الساعة والبطارية)
+      statusBarColor: Colors.transparent, 
+      statusBarIconBrightness: Brightness.dark, 
     ));
 
     return Scaffold(
-      body: Stack( // بنستخدم Stack عشان نحط عناصر فوق بعض (زي الزراير والـ PageView)
+      body: Stack( 
         children: [
-          // ده الـ PageView نفسه اللي بيوريني الصفحات وبتتنقل بينها
+         
           PageView.builder(
             controller: _pageController,
-            itemCount: onboardingPages.length, // عدد الصفحات هو عدد العناصر في اللستة بتاعتنا
-            onPageChanged: (int page) { // لما الصفحة تتغير (لما تسحبي)
+            itemCount: onboardingPages.length, 
+            onPageChanged: (int page) { 
               setState(() {
-                _currentPage = page; // بنحدث رقم الصفحة الحالية
+                _currentPage = page; 
               });
             },
             itemBuilder: (context, index) {
