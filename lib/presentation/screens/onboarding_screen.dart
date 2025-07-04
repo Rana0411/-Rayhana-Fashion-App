@@ -92,10 +92,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-      statusBarColor: Colors.transparent, 
-      statusBarIconBrightness: Brightness.dark, 
-    ));
 
     return Scaffold(
       body: Stack( 
